@@ -1,9 +1,10 @@
+import { useMemo } from 'react';
 import successImage from '../assets/images/success.png';
 import useFetch from '../hooks/useFetch';
 import classes from '../styles/Summary.module.css';
 
 export default function Summery({ score, noq }) {
-    const getKeyword = () => {
+    const getKeyword = useMemo(() => {
         if ((score / (noq * 5)) * 100 < 50) {
             return 'failed';
         }
@@ -14,7 +15,7 @@ export default function Summery({ score, noq }) {
             return 'very good';
         }
         return 'excellent';
-    };
+    }, [score, noq]);
 
     const { loading, error, result } = useFetch(
         `https://api.pexels.com/v1/search?query=${getKeyword()}&per_page=1`,
